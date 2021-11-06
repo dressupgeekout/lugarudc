@@ -41,11 +41,9 @@ along with Lugaru.  If not, see <http://www.gnu.org/licenses/>.
 #ifdef __APPLE__
 #include <OpenGL/gl.h>
 #include <OpenGL/glext.h>
-#include <OpenGL/glu.h>
 #else
 #include <GL/gl.h>
 #include <GL/glext.h>
-#include <GL/glu.h>
 #endif
 
 using namespace std;

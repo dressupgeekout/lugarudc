@@ -11,7 +11,6 @@ available via your package manager (dnf, urpmi, apt, brew, etc.):
 
 - CMake
 - SDL2
-- Mesa OpenGL Utility library (GLU)
 - LibJPEG (TurboJPEG)
 - LibPNG
 - OpenAL Soft

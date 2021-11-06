@@ -155,7 +155,10 @@ GLvoid Game::ReSizeGLScene(float fov, float pnear)
     glMatrixMode(GL_PROJECTION);
     glLoadIdentity();
 
-    gluPerspective(fov, (GLfloat)screenwidth / (GLfloat)screenheight, pnear, viewdistance);
+    GLdouble ar = (GLdouble)screenwidth / (GLdouble)screenheight;
+    GLdouble fh = tan(fov * (M_PI / 360)) * pnear;
+    GLdouble fw = fh * ar;
+    glFrustum(-fw, fw, -fh, fh, pnear, viewdistance);
 
     glMatrixMode(GL_MODELVIEW);
     glLoadIdentity();
