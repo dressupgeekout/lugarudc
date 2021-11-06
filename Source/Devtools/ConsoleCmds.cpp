@@ -150,6 +150,7 @@ static void set_clothes(int pnum, const char* args)
 
         return;
     }
+    fclose(tfile);
 
     int id = Person::players[pnum]->clothes.size();
     Person::players[pnum]->clothes.push_back(std::string(buf));
