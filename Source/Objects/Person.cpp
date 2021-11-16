@@ -690,6 +690,17 @@ int Person::getLandhard()
     return PersonType::types[creature].animLandingHard;
 }
 
+/* EFFECT:
+ * Break shared_ptr cycle. victim can point to another person
+ * whose victim points to the first player.
+ */
+void Person::clearVictims() {
+    for (auto& p : Person::players) {
+        p->victim.reset();
+        p->hasvictim = 0;
+    }
+}
+
 /* EFFECT
  *
  * USES:

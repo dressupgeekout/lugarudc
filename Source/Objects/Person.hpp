@@ -60,6 +60,7 @@ private:
 
 public:
     static std::vector<std::shared_ptr<Person>> players;
+    static void clearVictims();
 
     int whichpatchx;
     int whichpatchz;

@@ -622,6 +622,7 @@ bool Game::LoadLevel(const std::string& name, bool tutorial)
     }
 
     weapons.clear();
+    Person::clearVictims();
     Person::players.resize(1);
 
     funpackf(tfile, "Bi", &mapvers);
@@ -1064,6 +1065,7 @@ bool Game::LoadJsonLevel(const std::string& name, bool tutorial)
         playerTargetYaw = Person::players[0]->targetyaw;
     }
     weapons.clear();
+    Person::clearVictims();
     Person::players.clear();
     unsigned j = 0;
     for (unsigned i = 0; i < map_data["map"]["players"].size(); i++) {
