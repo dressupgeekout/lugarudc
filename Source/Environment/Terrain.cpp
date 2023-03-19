@@ -1193,15 +1193,19 @@ void Terrain::drawdecals()
             }
             if (decals[i].type == shadowdecal) {
                 DeleteDecal(i);
+                continue;
             }
             if (decals[i].type == footprintdecal && decals[i].alivetime >= 5) {
                 DeleteDecal(i);
+                continue;
             }
             if (decals[i].type == bodyprintdecal && decals[i].alivetime >= 5) {
                 DeleteDecal(i);
+                continue;
             }
             if ((decals[i].type == blooddecal || decals[i].type == blooddecalfast || decals[i].type == blooddecalslow) && decals[i].alivetime >= 60) {
                 DeleteDecal(i);
+                continue;
             }
         }
         glAlphaFunc(GL_GREATER, 0.0001);

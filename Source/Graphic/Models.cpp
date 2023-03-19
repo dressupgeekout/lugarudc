@@ -1026,9 +1026,11 @@ void Model::drawdecals(Texture shadowtexture, Texture bloodtexture, Texture bloo
             }
             if (decals[i].type == shadowdecal) {
                 DeleteDecal(i);
+                continue;
             }
             if ((decals[i].type == blooddecal || decals[i].type == blooddecalfast || decals[i].type == blooddecalslow) && decals[i].alivetime >= 60) {
                 DeleteDecal(i);
+                continue;
             }
         }
         glAlphaFunc(GL_GREATER, 0.0001);
