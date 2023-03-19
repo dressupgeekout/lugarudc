@@ -22,13 +22,15 @@ if(NOT CMAKE_BUILD_TYPE)
 endif()
 message(STATUS "CMake build type: ${CMAKE_BUILD_TYPE}")
 
-if(WIN32) #assuming MSVC
+if(WIN32 AND NOT MINGW) #assuming MSVC
 #/W4 = lots of warnings
 #/EHsc = synchronous exceptions
 set(CMAKE_CXX_FLAGS "/W4 /EHsc")
 if(CMAKE_BUILD_TYPE MATCHES DEBUG)
 #/Zi = edit and continue (aka hot reload)
 list(APPEND CMAKE_CXX_FLAGS "/Zi")
+else()
+list(APPEND CMAKE_CXX_FLAGS "/O2")
 endif()
 elseif() #not MSVC but could be Unix or MSYS2 or MINGW or CYGWIN
 set(CMAKE_CXX_FLAGS "-Wall -Wextra -Wno-parentheses -pedantic --std=gnu++11 ${CMAKE_CXX_FLAGS}")
@@ -195,11 +197,19 @@ set(LUGARU_H
 )
 
 set(LUGARU_OBJS "")
-if(WIN32)
+if(WIN32 AND NOT MINGW)
     add_custom_command(OUTPUT ${CMAKE_CURRENT_BINARY_DIR}/Lugaru.res
                        COMMAND ${CMAKE_RC_COMPILER}
                        /fo ${CMAKE_CURRENT_BINARY_DIR}/Lugaru.res
                        ${SRCDIR}/Lugaru.rc
+                       DEPENDS ${SRCDIR}/Lugaru.rc
+    )
+    set(LUGARU_OBJS "Lugaru.res")
+elseif(CYGWIN OR MINGW)
+    add_custom_command(OUTPUT ${CMAKE_CURRENT_BINARY_DIR}/Lugaru.res
+                       COMMAND ${CMAKE_RC_COMPILER}
+                       -o ${CMAKE_CURRENT_BINARY_DIR}/Lugaru.res
+                       -i${SRCDIR}/Lugaru.rc
                        DEPENDS ${SRCDIR}/Lugaru.rc
     )
     set(LUGARU_OBJS "Lugaru.res")
