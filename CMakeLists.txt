@@ -23,7 +23,13 @@ endif()
 message(STATUS "CMake build type: ${CMAKE_BUILD_TYPE}")
 
 if(WIN32) #assuming MSVC
+#/W4 = lots of warnings
+#/EHsc = synchronous exceptions
 set(CMAKE_CXX_FLAGS "/W4 /EHsc")
+if(CMAKE_BUILD_TYPE MATCHES DEBUG)
+#/Zi = edit and continue (aka hot reload)
+list(APPEND CMAKE_CXX_FLAGS "/Zi")
+endif()
 elseif() #not MSVC but could be Unix or MSYS2 or MINGW or CYGWIN
 set(CMAKE_CXX_FLAGS "-Wall -Wextra -Wno-parentheses -pedantic --std=gnu++11 ${CMAKE_CXX_FLAGS}")
 endif()
