@@ -21,6 +21,9 @@ along with Lugaru.  If not, see <http://www.gnu.org/licenses/>.
 // Enable full math definitions
 #define _USE_MATH_DEFINES
 
+#ifdef _MSC_VER
+#define NOMINMAX
+#endif
 #include "Game.hpp"
 
 #include "Animation/Animation.hpp"

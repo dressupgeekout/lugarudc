@@ -18,6 +18,10 @@ You should have received a copy of the GNU General Public License
 along with Lugaru.  If not, see <http://www.gnu.org/licenses/>.
 */
 
+#ifdef _MSC_VER
+/* Including this here fixes "identifier jmp_buf is undefined" error in png.h with Visual Studio */
+#include <setjmp.h>
+#endif
 #include "Utils/ImageIO.hpp"
 
 #include "Game.hpp"
@@ -31,6 +35,9 @@ along with Lugaru.  If not, see <http://www.gnu.org/licenses/>.
 #include <unistd.h>
 #endif
 
+#ifdef _MSC_VER
+#define strcasecmp(s1, s2) _stricmp(s1, s2)
+#endif
 /* These two are needed for screenshot */
 extern int kContextWidth;
 extern int kContextHeight;

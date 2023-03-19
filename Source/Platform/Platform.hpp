@@ -68,7 +68,7 @@ Duration AbsoluteDeltaToDuration(AbsoluteTime& a, AbsoluteTime& b);
 /* Workaround missing math stuff on MSVC
  * FIXME: Check that it is still necessary nowadays.
  */
-#ifdef _MSC_VER
+#if defined(_MSC_VER) && _MSC_VER < 1900
 inline bool isnormal(double x)
 {
     int ret = _fpclass(x);

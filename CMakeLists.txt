@@ -22,7 +22,11 @@ if(NOT CMAKE_BUILD_TYPE)
 endif()
 message(STATUS "CMake build type: ${CMAKE_BUILD_TYPE}")
 
+if(WIN32) #assuming MSVC
+set(CMAKE_CXX_FLAGS "/W4 /EHsc")
+elseif() #not MSVC but could be Unix or MSYS2 or MINGW or CYGWIN
 set(CMAKE_CXX_FLAGS "-Wall -Wextra -Wno-parentheses -pedantic --std=gnu++11 ${CMAKE_CXX_FLAGS}")
+endif()
 
 if(APPLE)
     set(CMAKE_OSX_ARCHITECTURES "x86_64" CACHE STRING "Build architectures for OSX")
@@ -188,8 +192,8 @@ set(LUGARU_OBJS "")
 if(WIN32)
     add_custom_command(OUTPUT ${CMAKE_CURRENT_BINARY_DIR}/Lugaru.res
                        COMMAND ${CMAKE_RC_COMPILER}
-                       -o ${CMAKE_CURRENT_BINARY_DIR}/Lugaru.res
-                       -i${SRCDIR}/Lugaru.rc
+                       /fo ${CMAKE_CURRENT_BINARY_DIR}/Lugaru.res
+                       ${SRCDIR}/Lugaru.rc
                        DEPENDS ${SRCDIR}/Lugaru.rc
     )
     set(LUGARU_OBJS "Lugaru.res")
@@ -217,7 +221,21 @@ endif()
 # macOS has problems with using pkgconfig to find SDL2
 if(APPLE)
     find_package(sdl2 REQUIRED)
+elseif(WIN32)
+    find_package(SDL2 CONFIG REQUIRED)
 else()
+    execute_process(
+        COMMAND sdl2-config --cflags
+        WORKING_DIRECTORY "${CMAKE_CURRENT_SOURCE_DIR}"
+        OUTPUT_VARIABLE "SDL2_INCLUDE_DIRS"
+        OUTPUT_STRIP_TRAILING_WHITESPACE)
+    execute_process(
+        COMMAND sdl2-config --libs
+        WORKING_DIRECTORY "${CMAKE_CURRENT_SOURCE_DIR}"
+        OUTPUT_VARIABLE "SDL2_LIBRARIES"
+        OUTPUT_STRIP_TRAILING_WHITESPACE)
+    message("SDL2_INCLUDE_DIRS='${SDL2_INCLUDE_DIRS}'")
+    message("SDL2_LIBRARIES='${SDL2_LIBRARIES}'")
     pkg_check_modules(SDL2 sdl2 REQUIRED)
 endif()
 
@@ -225,6 +243,8 @@ find_package(PNG REQUIRED)
 find_package(JPEG REQUIRED)
 
 pkg_check_modules(VORBISFILE vorbisfile REQUIRED)
+pkg_check_modules(VORBIS vorbis REQUIRED)
+pkg_check_modules(OGG ogg REQUIRED)
 pkg_check_modules(JSONCPP jsoncpp REQUIRED)
 
 include_directories(

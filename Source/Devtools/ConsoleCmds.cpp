@@ -66,6 +66,9 @@ extern float skyboxlightb;
 extern Terrain terrain;
 extern float viewdistance;
 
+#ifdef _MSC_VER
+#define strncasecmp(x, y, z) _strnicmp(x, y, z)
+#endif
 /* defined in GameTick.cpp */
 
 extern int whichlevel;

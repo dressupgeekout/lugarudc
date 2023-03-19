@@ -23,12 +23,12 @@ along with Lugaru.  If not, see <http://www.gnu.org/licenses/>.
 #include <cerrno>
 #include <cstdlib>
 #include <cstring>
-#include <unistd.h>
 
 #if PLATFORM_UNIX
 #include <pwd.h>
 #include <sys/stat.h>
 #include <sys/types.h>
+#include <unistd.h>
 #endif
 
 #if _WIN32

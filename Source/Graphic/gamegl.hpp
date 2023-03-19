@@ -30,7 +30,7 @@ along with Lugaru.  If not, see <http://www.gnu.org/licenses/>.
 #include <map>
 #include <string>
 
-#ifdef WIN32
+#if defined (WIN32) || defined(_WIN32)
 #define WIN32_LEAN_AND_MEAN
 #define Polygon WinPolygon
 #include <windows.h>
