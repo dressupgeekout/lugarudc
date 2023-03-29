@@ -23,18 +23,23 @@ endif()
 message(STATUS "CMake build type: ${CMAKE_BUILD_TYPE}")
 
 if(WIN32 AND NOT MINGW) #assuming MSVC
-#/W4 = lots of warnings
-#/EHsc = synchronous exceptions
-set(CMAKE_CXX_FLAGS "/W4 /EHsc")
-if(CMAKE_BUILD_TYPE MATCHES DEBUG)
-#/Zi = edit and continue (aka hot reload)
-list(APPEND CMAKE_CXX_FLAGS "/Zi")
-else()
-list(APPEND CMAKE_CXX_FLAGS "/O2")
-endif()
-elseif() #not MSVC but could be Unix or MSYS2 or MINGW or CYGWIN
-set(CMAKE_CXX_FLAGS "-Wall -Wextra -Wno-parentheses -pedantic --std=gnu++11 ${CMAKE_CXX_FLAGS}")
-endif()
+    #/W4 = lots of warnings
+    #/EHsc = synchronous exceptions
+    add_compile_options("/W4 /EHsc")
+    if(CMAKE_BUILD_TYPE MATCHES DEBUG)
+        #/Zi = edit and continue (aka hot reload)
+        add_compile_options("/Zi")
+    else()
+        add_compile_options("/O2")
+    endif() # check for MSVC debug build
+elseif(MINGW OR NOT WIN32) #not MSVC but could be Unix or MSYS2 or MINGW or CYGWIN
+    add_compile_options(-Wall -Wextra -Wno-parentheses -pedantic --std=gnu++11)
+    if (CMAKE_BUILD_TYPE MATCHES DEBUG)
+        add_compile_options(-g3 -Og)
+    else()
+        add_compile_options(-O2)
+    endif() # check for debug build *nix.
+endif() #check if WIN32
 
 if(APPLE)
     set(CMAKE_OSX_ARCHITECTURES "x86_64" CACHE STRING "Build architectures for OSX")
@@ -46,13 +51,12 @@ endif()
 
 if(WIN32 AND MINGW)
     # Recent mingw requires this, see https://sourceforge.net/p/mingw-w64/bugs/818/
-    set(CMAKE_CXX_FLAGS "${CMAKE_CXX_FLAGS} -fstack-protector")
+    add_compile_options("-fstack-protector")
 endif()
 
 if(LINUX)
     option(SYSTEM_INSTALL "Enable system-wide installation, with hardcoded data directory defined with CMAKE_INSTALL_DATADIR" OFF)
 endif()
-
 
 ### Version
 
