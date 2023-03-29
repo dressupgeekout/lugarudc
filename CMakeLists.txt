@@ -52,6 +52,7 @@ endif()
 if(WIN32 AND MINGW)
     # Recent mingw requires this, see https://sourceforge.net/p/mingw-w64/bugs/818/
     add_compile_options("-fstack-protector")
+    add_link_options("-fstack-protector")
 endif()
 
 if(LINUX)
