@@ -33,7 +33,7 @@ if(WIN32 AND NOT MINGW) #assuming MSVC
         add_compile_options("/O2")
     endif() # check for MSVC debug build
 elseif(MINGW OR NOT WIN32) #not MSVC but could be Unix or MSYS2 or MINGW or CYGWIN
-    add_compile_options(-Wall -Wextra -Wno-parentheses -pedantic --std=gnu++11)
+    add_compile_options(-Wall -Wextra -Wno-parentheses -pedantic)
     if (CMAKE_BUILD_TYPE MATCHES DEBUG)
         add_compile_options(-g3 -Og)
     else()
