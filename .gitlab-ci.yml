@@ -6,35 +6,31 @@ cache:
     - dnf-cache/
 
 variables:
-  YUMDNF: dnf
   EXTRA_REPO_INST_COMMAND: /bin/true
   EXTRA_REPO_CONFIGURE_COMMAND: /bin/true
-  CMAKE_PACKAGE: "/usr/bin/cmake"
   DEPENDENCY_PACKAGES: "pkgconfig(openal) pkgconfig(sdl2) pkgconfig(glu) pkgconfig(libpng) pkgconfig(libjpeg) pkgconfig(vorbis) pkgconfig(vorbisfile) pkgconfig(ogg) pkgconfig(jsoncpp)"
-  COMMON_PACKAGES: "$COMPILER_PACKAGES $CMAKE_PACKAGE make $DEPENDENCY_PACKAGES"
+  COMMON_PACKAGES: "$COMPILER_PACKAGES cmake make $DEPENDENCY_PACKAGES"
 
 before_script:
   - $EXTRA_REPO_INST_COMMAND
   - $EXTRA_REPO_CONFIGURE_COMMAND
-  - $YUMDNF --setopt=cachedir=`pwd`/${YUMDNF}-cache --quiet --assumeyes install $COMMON_PACKAGES
+  - dnf --setopt=cachedir=`pwd`/dnf-cache -q -y install $COMMON_PACKAGES
 
 build_oldgcc:
-  image: centos:8
+  image: almalinux:8
   cache:
-    key: yum-cache
+    key: dnf-cache
     paths:
-      - yum-cache/
+      - dnf-cache/
   variables:
-    YUMDNF: yum
-    EXTRA_REPO_INST_COMMAND: "yum --setopt=cachedir=`pwd`/yum-cache --quiet --assumeyes install epel-release yum-utils"
-    EXTRA_REPO_CONFIGURE_COMMAND: "yum-config-manager --enable PowerTools"
-    CMAKE_PACKAGE: "/usr/bin/cmake3"
+    EXTRA_REPO_INST_COMMAND: "dnf --setopt=cachedir=`pwd`/dnf-cache -q -y install epel-release yum-utils"
+    EXTRA_REPO_CONFIGURE_COMMAND: "dnf config-manager --set-enabled powertools"
     COMPILER_PACKAGES: "gcc gcc-c++"
   stage: build
   script:
     - export CC=gcc; export CXX=g++
     - mkdir -p x86_64-linux-gnu-oldgcc oldgcc-build; cd x86_64-linux-gnu-oldgcc
-    - cmake3 .. -DCMAKE_INSTALL_PREFIX=/builds/${CI_PROJECT_PATH}/oldgcc-build
+    - cmake .. -DCMAKE_INSTALL_PREFIX=/builds/${CI_PROJECT_PATH}/oldgcc-build
     - make -j4; make install
   artifacts:
     expire_in: 14d
