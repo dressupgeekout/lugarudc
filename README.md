@@ -1,3 +1,11 @@
+# lugarudc
+
+**NOTE!** This repository is part of an attempt to port Lugaru to the Sega
+Dreamcast. It's still in the research phase. I have a lot of learning to do
+in the meantime!
+
+---------- ---------- ----------
+
 # Lugaru HD
 
 [![build status](https://gitlab.com/osslugaru/lugaru/badges/master/build.svg)](https://gitlab.com/osslugaru/lugaru/commits/master)
