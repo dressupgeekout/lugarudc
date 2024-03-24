@@ -13,7 +13,6 @@ cmake_install.cmake
 cmake-build
 CMakeFiles
 CMakeCache.txt
-Makefile
 cscope.*
 Data/users
 Data/config.txt
