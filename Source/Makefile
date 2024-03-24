@@ -50,7 +50,12 @@ SRCS+=	User/Settings.cpp
 SRCS+=	Utils/Folders.cpp
 SRCS+=	Utils/ImageIO.cpp
 SRCS+=	Utils/Input.cpp
+
+ifeq ($(KOS),1)
+SRCS+=	dreamcast_main.cpp
+else
 SRCS+=	main.cpp
+endif
 
 C_SRCS+=	Utils/pack.c
 C_SRCS+=	Utils/private.c

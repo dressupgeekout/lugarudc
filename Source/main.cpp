@@ -586,12 +586,6 @@ int main(int argc, char** argv)
               << "--------------------------------------------------------------------------\n"
               << std::endl;
 
-#ifdef DREAMCAST
-		std::cout << "This is the DREAMCAST version" << std::endl
-			<< "--------------------------------------------------------------------------"
-			<< std::endl;
-#endif
-
 // !!! FIXME: we could use a Win32 API for this.  --ryan.
 #ifndef WIN32
     chdirToAppPath(argv[0]);
