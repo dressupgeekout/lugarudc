@@ -50,7 +50,7 @@ along with Lugaru.  If not, see <http://www.gnu.org/licenses/>.
 #include <dirent.h>
 #include <limits>
 #include <set>
-#include <json/reader.h>
+#include <json/json.h>
 
 using namespace std;
 using namespace Game;

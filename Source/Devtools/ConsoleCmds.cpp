@@ -25,8 +25,7 @@ along with Lugaru.  If not, see <http://www.gnu.org/licenses/>.
 #include "Level/Hotspot.hpp"
 #include "Tutorial.hpp"
 #include "Utils/Folders.hpp"
-#include <json/value.h>
-#include <json/writer.h>
+#include <json/json.h>
 
 const char* cmd_names[cmd_count] = {
 #define DECLARE_COMMAND(cmd) #cmd,

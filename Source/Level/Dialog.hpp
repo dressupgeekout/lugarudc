@@ -25,7 +25,7 @@ along with Lugaru.  If not, see <http://www.gnu.org/licenses/>.
 
 #include <stdio.h>
 #include <vector>
-#include <json/value.h>
+#include <json/json.h>
 
 class DialogScene
 {

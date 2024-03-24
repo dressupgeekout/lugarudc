@@ -24,7 +24,7 @@ along with Lugaru.  If not, see <http://www.gnu.org/licenses/>.
 #include "Graphic/gamegl.hpp"
 
 #include <math.h>
-#include <json/value.h>
+#include <json/json.h>
 
 class XYZ
 {
