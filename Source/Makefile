@@ -37,6 +37,7 @@ SRCS+=	Objects/PersonType.cpp
 SRCS+=	Objects/Weapons.cpp
 SRCS+=	Platform/PlatformUnix.cpp
 SRCS+=	Platform/PlatformWindows.cpp
+SRCS+=	Thirdparty/jsoncpp.cpp
 SRCS+=	Tutorial.cpp
 SRCS+=	User/Account.cpp
 SRCS+=	User/Settings.cpp
@@ -50,11 +51,11 @@ C_SRCS+=	Utils/private.c
 C_SRCS+=	Utils/unpack.c
 
 CFLAGS+=	-DPLATFORM_LINUX=1 -DPLATFORM_UNIX=1 -DBinIO_STDINT_HEADER=\<stdint.h\>
-CFLAGS+=	-I. -I/usr/pkg/include
+CFLAGS+=	-I. -I./Thirdparty -I/usr/pkg/include
 CFLAGS+=	$(shell sdl2-config --cflags)
 
 LDFLAGS+=	-L/usr/pkg/lib -L/usr/X11R7/lib
-LDFLAGS+=	-lGL -lpng16 -ljpeg -ljsoncpp -lopenal -lvorbisfile
+LDFLAGS+=	-lGL -lpng16 -ljpeg -lopenal -lvorbisfile
 LDFLAGS+=	$(shell sdl2-config --libs)
 
 .PHONY: all
