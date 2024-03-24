@@ -321,18 +321,6 @@ void Game::cmd_dispatch(const string cmd)
 }
 
 /********************> Tick() <*****/
-extern bool save_screenshot(const char* fname);
-void Screenshot(void)
-{
-    char filename[1024];
-    time_t t = time(NULL);
-    struct tm* tme = localtime(&t);
-    sprintf(filename, "Screenshot-%04d%02d%02d-%02d%02d%02d.png",
-            tme->tm_year + 1900, tme->tm_mon + 1, tme->tm_mday, tme->tm_hour, tme->tm_min, tme->tm_sec);
-
-    save_screenshot(filename);
-}
-
 void Game::SetUpLighting()
 {
     if (environment == snowyenvironment) {
@@ -1240,11 +1228,6 @@ void Game::ProcessInput()
             }
             emit_sound_np(consolefailsound, 128.);
         }
-    }
-
-    /* Screenshot */
-    if (Input::isKeyPressed(SDL_SCANCODE_F1)) {
-        Screenshot();
     }
 
     /* Stereo video mode hotkeys */

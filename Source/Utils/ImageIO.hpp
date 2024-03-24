@@ -57,6 +57,5 @@ private:
 };
 
 bool load_image(const char* fname, ImageRec& tex);
-bool save_screenshot(const char* fname);
 
 #endif

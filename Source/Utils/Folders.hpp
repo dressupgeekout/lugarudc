@@ -47,9 +47,6 @@ class Folders
     static const std::string dataDir;
 
 public:
-    /** Returns path to the screenshot directory. Creates it if needed. */
-    static std::string getScreenshotDir();
-
     /** Returns full path for user data */
     static std::string getUserDataPath();
 

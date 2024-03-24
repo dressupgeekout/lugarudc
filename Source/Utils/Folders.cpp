@@ -38,13 +38,6 @@ along with Lugaru.  If not, see <http://www.gnu.org/licenses/>.
 
 const std::string Folders::dataDir = DATA_DIR;
 
-std::string Folders::getScreenshotDir()
-{
-    std::string screenshotDir = getUserDataPath() + "/Screenshots";
-    makeDirectory(screenshotDir);
-    return screenshotDir;
-}
-
 std::string Folders::getUserDataPath()
 {
     std::string userDataPath;
