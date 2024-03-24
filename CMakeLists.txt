@@ -246,6 +246,11 @@ set(LUGARU_LIBS ${OPENAL_LIBRARY} ${PNG_LIBRARY} ${JPEG_LIBRARY} ${SDL2_LIBRARIE
 add_executable(lugaru ${LUGARU_SRCS} ${LUGARU_H} ${LUGARU_OBJS})
 target_link_libraries(lugaru ${LUGARU_LIBS})
 
+# XXX CHARLOTTE
+if (CMAKE_SYSTEM_NAME STREQUAL "NetBSD")
+  target_link_directories(lugaru PUBLIC /usr/pkg/lib)
+endif()
+
 if(WIN32)
     add_definitions(-DBinIO_STDINT_HEADER=<stdint.h>)
     if(MINGW)
