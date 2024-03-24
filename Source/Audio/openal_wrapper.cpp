@@ -165,12 +165,10 @@ AL_API signed char OPENAL_Init(int mixrate, int maxsoftwarechannels, unsigned in
     alcMakeContextCurrent(ctx);
     alcProcessContext(ctx);
 
-    if (commandLineOptions[OPENALINFO]) {
-        printf("AL_VENDOR: %s\n", (char*)alGetString(AL_VENDOR));
-        printf("AL_RENDERER: %s\n", (char*)alGetString(AL_RENDERER));
-        printf("AL_VERSION: %s\n", (char*)alGetString(AL_VERSION));
-        printf("AL_EXTENSIONS: %s\n", (char*)alGetString(AL_EXTENSIONS));
-    }
+    printf("AL_VENDOR: %s\n", (char*)alGetString(AL_VENDOR));
+    printf("AL_RENDERER: %s\n", (char*)alGetString(AL_RENDERER));
+    printf("AL_VERSION: %s\n", (char*)alGetString(AL_VERSION));
+    printf("AL_EXTENSIONS: %s\n", (char*)alGetString(AL_EXTENSIONS));
 
     num_channels = maxsoftwarechannels;
     impl_channels = new OPENAL_Channels[maxsoftwarechannels];

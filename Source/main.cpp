@@ -224,26 +224,11 @@ bool SetUp()
         return false;
     }
 
-    if (commandLineOptions[SHOWRESOLUTIONS]) {
-        printf("Available resolutions:\n");
-        for (auto resolution = resolutions.begin(); resolution != resolutions.end(); resolution++) {
-            printf("  %d x %d\n", (int)resolution->first, (int)resolution->second);
-        }
-    }
-
     SDL_GL_SetAttribute(SDL_GL_DOUBLEBUFFER, 1);
     SDL_GL_SetAttribute(SDL_GL_STENCIL_SIZE, 1);
 
     Uint32 sdlflags = SDL_WINDOW_OPENGL | SDL_WINDOW_SHOWN;
-    if (commandLineOptions[FULLSCREEN]) {
-        fullscreen = commandLineOptions[FULLSCREEN].last()->type();
-    }
-    if (fullscreen) {
-        sdlflags |= SDL_WINDOW_FULLSCREEN;
-    }
-    if (!commandLineOptions[NOMOUSEGRAB].last()->type()) {
-        sdlflags |= SDL_WINDOW_INPUT_GRABBED;
-    }
+    sdlflags |= SDL_WINDOW_INPUT_GRABBED;
 
     sdlwindow = SDL_CreateWindow("Lugaru", SDL_WINDOWPOS_CENTERED_DISPLAY(0), SDL_WINDOWPOS_CENTERED_DISPLAY(0),
                                  kContextWidth, kContextHeight, sdlflags);
@@ -290,9 +275,7 @@ bool SetUp()
     }
 
     SDL_ShowCursor(0);
-    if (!commandLineOptions[NOMOUSEGRAB].last()->type()) {
-        SDL_SetRelativeMouseMode(SDL_TRUE);
-    }
+    SDL_SetRelativeMouseMode(SDL_TRUE);
 
     initGL();
 
@@ -474,9 +457,6 @@ void DoUpdate()
 void CleanUp(void)
 {
     LOGFUNC;
-
-    delete[] commandLineOptionsBuffer;
-
     SDL_Quit();
 }
 
@@ -590,43 +570,10 @@ static inline void chdirToAppPath(const char* argv0)
 }
 #endif
 
-const option::Descriptor usage[] =
-    {
-      { UNKNOWN, 0, "", "", option::Arg::None, "USAGE: lugaru [options]\n\n"
-                                               "Options:" },
-      { VERSION, 0, "v", "version", option::Arg::None, " -v, --version     Print version and exit." },
-      { HELP, 0, "h", "help", option::Arg::None, " -h, --help        Print usage and exit." },
-      { FULLSCREEN, 1, "f", "fullscreen", option::Arg::None, " -f, --fullscreen  Start the game in fullscreen mode." },
-      { FULLSCREEN, 0, "w", "windowed", option::Arg::None, " -w, --windowed    Start the game in windowed mode (default)." },
-      { NOMOUSEGRAB, 1, "", "nomousegrab", option::Arg::None, " --nomousegrab     Disable mousegrab." },
-      { NOMOUSEGRAB, 0, "", "mousegrab", option::Arg::None, " --mousegrab       Enable mousegrab (default)." },
-      { SOUND, 1, "", "nosound", option::Arg::None, " --nosound         Disable sound." },
-      { OPENALINFO, 0, "", "openal-info", option::Arg::None, " --openal-info     Print info about OpenAL at launch." },
-      { SHOWRESOLUTIONS, 0, "", "showresolutions", option::Arg::None, " --showresolutions List the resolutions found by SDL at launch." },
-      { DEVTOOLS, 0, "d", "devtools", option::Arg::None, " -d, --devtools    Enable dev tools: console, level editor and debug info." },
-      { CMD, 0, "c", "command", option::Arg::Optional, " -c, --command    Run this command at game start. May be used to load a map." },
-      { 0, 0, 0, 0, 0, 0 }
-    };
-
-option::Option commandLineOptions[commandLineOptionsNumber];
-option::Option* commandLineOptionsBuffer;
-
 int main(int argc, char** argv)
 {
     argc -= (argc > 0);
     argv += (argc > 0); // skip program name argv[0] if present
-    option::Stats stats(true, usage, argc, argv);
-    if (commandLineOptionsNumber != stats.options_max) {
-        std::cerr << "Found incorrect command line option number" << std::endl;
-        return 1;
-    }
-    commandLineOptionsBuffer = new option::Option[stats.buffer_max];
-    option::Parser parse(true, usage, argc, argv, commandLineOptions, commandLineOptionsBuffer);
-
-    if (parse.error()) {
-        delete[] commandLineOptionsBuffer;
-        return 1;
-    }
 
     // Always start by printing the version and info to the stdout
     std::cout << "--------------------------------------------------------------------------\n"
@@ -638,25 +585,6 @@ int main(int argc, char** argv)
     std::cout << "Version " + VERSION_STRING + " -- " + VERSION_BUILD_TYPE + " build\n"
               << "--------------------------------------------------------------------------\n"
               << std::endl;
-
-    if (commandLineOptions[VERSION]) {
-        // That was enough, quit.
-        delete[] commandLineOptionsBuffer;
-        return 0;
-    }
-
-    if (commandLineOptions[HELP]) {
-        option::printUsage(std::cout, usage);
-        delete[] commandLineOptionsBuffer;
-        return 0;
-    }
-
-    if (option::Option* opt = commandLineOptions[UNKNOWN]) {
-        std::cerr << "Unknown option: " << opt->name << "\n";
-        option::printUsage(std::cerr, usage);
-        delete[] commandLineOptionsBuffer;
-        return 1;
-    }
 
 // !!! FIXME: we could use a Win32 API for this.  --ryan.
 #ifndef WIN32
@@ -672,28 +600,13 @@ int main(int argc, char** argv)
             newGame();
 
             if (!SetUp()) {
-                delete[] commandLineOptionsBuffer;
                 return 42;
-            }
-
-            if (commandLineOptions[DEVTOOLS]) {
-                devtools = true;
             }
 
             bool gameDone = false;
             bool gameFocused = true;
 
             srand(time(nullptr));
-
-            if (commandLineOptions[CMD].count() > 0) {
-                devtools = true;
-                Menu::startChallengeLevel(1);
-                for (option::Option* opt = commandLineOptions[CMD]; opt; opt = opt->next()) {
-                    if (opt->arg && (strlen(opt->arg) > 0)) {
-                        cmd_dispatch(opt->arg);
-                    }
-                }
-            }
 
             while (!gameDone && !tryquit) {
                 if (IsFocused()) {

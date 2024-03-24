@@ -35,7 +35,6 @@ along with Lugaru.  If not, see <http://www.gnu.org/licenses/>.
 #include "Objects/Object.hpp"
 #include "Objects/Person.hpp"
 #include "Objects/Weapons.hpp"
-#include "Thirdparty/optionparser.h"
 #include "User/Account.hpp"
 #include "Utils/ImageIO.hpp"
 #include "Utils/binio.h"
@@ -222,26 +221,5 @@ enum editortypes
 extern const char* editortypenames[8];
 
 SDL_bool sdlEventProc(const SDL_Event& e);
-
-enum optionIndex
-{
-    UNKNOWN,
-    VERSION,
-    HELP,
-    FULLSCREEN,
-    NOMOUSEGRAB,
-    SOUND,
-    OPENALINFO,
-    SHOWRESOLUTIONS,
-    DEVTOOLS,
-    CMD
-};
-/* Number of options + 1 */
-const int commandLineOptionsNumber = 11;
-
-extern const option::Descriptor usage[];
-
-extern option::Option commandLineOptions[commandLineOptionsNumber];
-extern option::Option* commandLineOptionsBuffer;
 
 #endif
