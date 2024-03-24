@@ -43,7 +43,6 @@ SRCS+=	Objects/Person.cpp
 SRCS+=	Objects/PersonType.cpp
 SRCS+=	Objects/Weapons.cpp
 SRCS+=	Platform/PlatformUnix.cpp
-SRCS+=	Platform/PlatformWindows.cpp
 SRCS+=	Thirdparty/jsoncpp.cpp
 SRCS+=	Tutorial.cpp
 SRCS+=	User/Account.cpp
