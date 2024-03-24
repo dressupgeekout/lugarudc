@@ -56,7 +56,7 @@ C_SRCS+=	Utils/pack.c
 C_SRCS+=	Utils/private.c
 C_SRCS+=	Utils/unpack.c
 
-CFLAGS+=	-DPLATFORM_LINUX=1 -DPLATFORM_UNIX=1 -DBinIO_STDINT_HEADER=\<stdint.h\>
+CFLAGS+=	-DPLATFORM_LINUX=1 -DPLATFORM_UNIX=1
 CFLAGS+=	-I. -I./Thirdparty
 
 ifeq ($(KOS),1)

@@ -67,22 +67,9 @@ extern "C" {
 
 #ifndef ALREADY_DID_BINIO_STDINT
 #define ALREADY_DID_BINIO_STDINT
-#if defined(BinIO_STDINT_HEADER)
-#include BinIO_STDINT_HEADER
+#include <stdint.h>
     typedef float              float32_t;
     typedef double             float64_t;
-#else
-    typedef unsigned char      uint8_t;
-    typedef unsigned short     uint16_t;
-    typedef unsigned long      uint32_t;
-#ifdef WIN32
-    typedef unsigned __int64   uint64_t;
-#else
-    typedef unsigned long long uint64_t;
-#endif
-    typedef float              float32_t;
-    typedef double             float64_t;
-#endif
 #endif
 
     typedef struct {
