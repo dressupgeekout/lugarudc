@@ -66,9 +66,9 @@ extern float accountcampaigntime[10];
 extern int accountcampaignchoicesmade[10];
 extern int accountcampaignchoices[10][5000];
 
-void LOG(const std::string&, ...)
+void LOG(const std::string& msg)
 {
-    // !!! FIXME: write me.
+    std::cout << msg << std::endl;
 }
 
 void Dispose()
