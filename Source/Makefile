@@ -6,8 +6,12 @@
 KOS?=	0
 
 ifeq ($(KOS),1)
-CC=	kos-cc
-CXX=	kos-c++
+PROG=		lugaru.elf
+CC=		kos-cc
+CXX=		kos-c++
+MKDCDISC?=	mkdcdisc
+else
+PROG=		lugaru
 endif
 
 SRCS+=	Animation/Animation.cpp
@@ -73,7 +77,7 @@ CFLAGS+=	$(shell sdl2-config --cflags)
 endif
 
 ifeq ($(KOS),1)
-# OK
+LDFLAGS+=	-L$(KOS_PORTS)/libGL/inst/lib -lGL
 else
 LDFLAGS+=	-L/usr/pkg/lib -L/usr/X11R7/lib
 LDFLAGS+=	-lGL -lpng16 -ljpeg -lopenal -lvorbisfile
@@ -81,9 +85,13 @@ LDFLAGS+=	$(shell sdl2-config --libs)
 endif
 
 .PHONY: all
-all: lugaru
+ifeq ($(KOS),1)
+all: lugaru.cdi
+else
+all: $(PROG)
+endif
 
-lugaru: $(patsubst %.c,%.o,$(C_SRCS)) $(patsubst %.cpp,%.o,$(SRCS))
+$(PROG): $(patsubst %.c,%.o,$(C_SRCS)) $(patsubst %.cpp,%.o,$(SRCS))
 	$(CXX) -o $@ $^ $(LDFLAGS)
 
 %.o: %.cpp
@@ -92,6 +100,11 @@ lugaru: $(patsubst %.c,%.o,$(C_SRCS)) $(patsubst %.cpp,%.o,$(SRCS))
 %.o: %.c
 	$(CC) -o $@ -c $(CFLAGS) $<
 
+ifeq ($(KOS),1)
+lugaru.cdi: $(PROG)
+	$(MKDCDISC) -v 2 --no-padding --name LUGARU -e $(PROG) -o $@
+endif
+
 .PHONY: clean
 clean:
-	rm -f *.o */*.o lugaru
+	rm -f *.o */*.o $(PROG) lugaru.cdi

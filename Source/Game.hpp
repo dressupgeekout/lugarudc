@@ -178,8 +178,10 @@ float sq(float n);
 
 static __forceinline void swap_gl_buffers(void)
 {
+#ifndef DREAMCAST
     extern SDL_Window* sdlwindow;
     SDL_GL_SwapWindow(sdlwindow);
+#endif
 
     // try to limit this to 60fps, even if vsync fails.
     Uint32 now;
