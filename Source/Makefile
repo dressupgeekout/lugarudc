@@ -61,6 +61,7 @@ CFLAGS+=	-I. -I./Thirdparty
 
 ifeq ($(KOS),1)
 # OK
+CFLAGS+=	-DDREAMCAST
 else
 CFLAGS+=	-I/usr/pkg/include
 CFLAGS+=	$(shell sdl2-config --cflags)
