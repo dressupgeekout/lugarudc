@@ -3,16 +3,7 @@
 # Charlotte Koch <dressupgeekout@gmail.com>
 #
 
-KOS?=	0
-
-ifeq ($(KOS),1)
-PROG=		lugaru.elf
-CC=		kos-cc
-CXX=		kos-c++
-MKDCDISC?=	mkdcdisc
-else
 PROG=		lugaru
-endif
 
 SRCS+=	Animation/Animation.cpp
 SRCS+=	Animation/Joint.cpp
@@ -54,42 +45,24 @@ SRCS+=	User/Settings.cpp
 SRCS+=	Utils/Folders.cpp
 SRCS+=	Utils/ImageIO.cpp
 SRCS+=	Utils/Input.cpp
-
-ifeq ($(KOS),1)
-SRCS+=	dreamcast_main.cpp
-else
 SRCS+=	main.cpp
-endif
 
 C_SRCS+=	Utils/pack.c
 C_SRCS+=	Utils/private.c
 C_SRCS+=	Utils/unpack.c
 
+CFLAGS+=	-Wno-unused-variable -Wno-parentheses
 CFLAGS+=	-DPLATFORM_LINUX=1 -DPLATFORM_UNIX=1
 CFLAGS+=	-I. -I./Thirdparty
 
-ifeq ($(KOS),1)
-# OK
-CFLAGS+=	-DDREAMCAST
-else
 CFLAGS+=	-I/usr/pkg/include
 CFLAGS+=	$(shell sdl2-config --cflags)
-endif
 
-ifeq ($(KOS),1)
-LDFLAGS+=	-L$(KOS_PORTS)/libGL/inst/lib -lGL
-else
 LDFLAGS+=	-L/usr/pkg/lib -L/usr/X11R7/lib
 LDFLAGS+=	-lGL -lpng16 -ljpeg -lopenal -lvorbisfile
 LDFLAGS+=	$(shell sdl2-config --libs)
-endif
 
-.PHONY: all
-ifeq ($(KOS),1)
-all: lugaru.cdi
-else
 all: $(PROG)
-endif
 
 $(PROG): $(patsubst %.c,%.o,$(C_SRCS)) $(patsubst %.cpp,%.o,$(SRCS))
 	$(CXX) -o $@ $^ $(LDFLAGS)
@@ -100,11 +73,6 @@ $(PROG): $(patsubst %.c,%.o,$(C_SRCS)) $(patsubst %.cpp,%.o,$(SRCS))
 %.o: %.c
 	$(CC) -o $@ -c $(CFLAGS) $<
 
-ifeq ($(KOS),1)
-lugaru.cdi: $(PROG)
-	$(MKDCDISC) -v 2 --no-padding --name LUGARU -e $(PROG) -o $@
-endif
-
 .PHONY: clean
 clean:
-	rm -f *.o */*.o $(PROG) lugaru.cdi
+	rm -f *.o */*.o $(PROG)

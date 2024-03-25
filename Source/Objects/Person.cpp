@@ -6648,7 +6648,9 @@ int Person::DrawSkeleton()
             glRotatef(yaw, 0, 1, 0);
         }
         if (showpoints) {
+#ifndef DREAMCAST
             glPointSize(5);
+#endif
             glColor4f(.4, 1, .4, 1);
             glDisable(GL_LIGHTING);
             glDisable(GL_TEXTURE_2D);

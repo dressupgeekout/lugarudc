@@ -383,7 +383,9 @@ public:
     void DoMipmaps()
     {
         skeleton.drawmodel.textureptr.bind();
+#ifndef DREAMCAST
         glTexParameteri(GL_TEXTURE_2D, GL_GENERATE_MIPMAP, GL_TRUE);
+#endif
         glTexImage2D(GL_TEXTURE_2D, 0, GL_RGB, skeleton.skinsize, skeleton.skinsize, 0, GL_RGB, GL_UNSIGNED_BYTE, &skeleton.skinText[0]);
     }
 

@@ -69,7 +69,9 @@ void InitStereo(StereoMode mode)
             glDisable(GL_TEXTURE_2D);
 
             glEnable(GL_STENCIL_TEST);
+#ifndef DREAMCAST
             glClearStencil(0);
+#endif
             glClear(GL_STENCIL_BUFFER_BIT);
             glStencilFunc(GL_ALWAYS, 0x1, 0x1);
             glStencilOp(GL_REPLACE, GL_REPLACE, GL_REPLACE);
