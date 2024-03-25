@@ -248,8 +248,10 @@ bool LoadSettings()
             ipstream >> damageeffects;
         } else if (!strncmp(setting, "Text", 4)) {
             ipstream >> texttoggle;
+#ifndef DREAMCAST
         } else if (!strncmp(setting, "Devtools", 8)) {
             ipstream >> devtools;
+#endif
         } else if (!strncmp(setting, "Show Points", 11)) {
             ipstream >> showpoints;
         } else if (!strncmp(setting, "Always Blur", 11)) {

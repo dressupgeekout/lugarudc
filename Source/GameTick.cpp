@@ -25,7 +25,9 @@ along with Lugaru.  If not, see <http://www.gnu.org/licenses/>.
 
 #include "Animation/Animation.hpp"
 #include "Audio/openal_wrapper.hpp"
+#ifndef DREAMCAST
 #include "Devtools/ConsoleCmds.hpp"
+#endif // DREAMCAST
 #include "Level/Awards.hpp"
 #include "Level/Campaign.hpp"
 #include "Level/Dialog.hpp"
@@ -1231,6 +1233,7 @@ void Game::ProcessInput()
     }
 
     /* Stereo video mode hotkeys */
+#ifndef DREAMCAST
     if (Input::isKeyPressed(SDL_SCANCODE_F6)) {
         if (Input::isKeyDown(SDL_SCANCODE_LSHIFT)) {
             stereoreverse = true;
@@ -1258,8 +1261,10 @@ void Game::ProcessInput()
         }
         printf("Stereo separation increased to %f\n", stereoseparation);
     }
+#endif // DREAMCAST
 
     /* Devtools */
+#ifndef DREAMCAST
     if (devtools && !mainmenu) {
         /* Console */
         if (Input::isKeyPressed(consolekey)) {
@@ -1277,6 +1282,7 @@ void Game::ProcessInput()
             ProcessDevInput();
         }
     }
+#endif // DREAMCAST
 }
 
 void Game::ProcessDevInput()
@@ -1285,6 +1291,7 @@ void Game::ProcessDevInput()
         return;
     }
 
+#ifndef DREAMCAST
     if (Input::isKeyDown(SDL_SCANCODE_LALT)) {
         /* Enable editor */
         if (Input::isKeyPressed(SDL_SCANCODE_M) && !Input::isKeyDown(SDL_SCANCODE_LSHIFT)) {
@@ -1871,6 +1878,7 @@ void Game::ProcessDevInput()
             mapradius += multiplier * 10;
         }
     }
+#endif // DREAMCAST
 }
 
 void doJumpReversals()
@@ -3643,6 +3651,7 @@ void Game::Tick()
             }
 
             //respawn
+#ifndef DREAMCAST
             static bool respawnkeydown;
             if (!editorenabled &&
                 (whichlevel != -2 &&
@@ -3657,6 +3666,7 @@ void Game::Tick()
                 loading = 1;
                 leveltime = 5;
             }
+#endif
             respawnkeydown = Input::isKeyDown(jumpkey);
 
             static bool movekey;
@@ -4487,6 +4497,7 @@ void Game::Tick()
                                     Person::players[i]->velocity.y = 5;
                                 }
 
+#ifndef DREAMCAST
                                 if (mousejump && i == 0 && devtools) {
                                     if (!Person::players[i]->isLanding()) {
                                         Person::players[i]->tempdeltav = deltav;
@@ -4495,6 +4506,7 @@ void Game::Tick()
                                         Person::players[i]->velocity.y -= (float)(Person::players[i]->tempdeltav) / multiplier / 1000;
                                     }
                                 }
+#endif
 
                                 Person::players[i]->coords.y += .2;
                                 Person::players[i]->jumppower -= 1;
@@ -4526,9 +4538,11 @@ void Game::Tick()
                                     Person::players[i]->jumppower = 0;
                                 }
                             }
+#ifndef DREAMCAST
                             if (((floatjump || editorenabled) && devtools) && i == 0) {
                                 Person::players[i]->velocity.y += multiplier * 30;
                             }
+#endif
                         }
 
                         if (!movekey) {

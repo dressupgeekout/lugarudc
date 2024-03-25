@@ -351,9 +351,11 @@ void Menu::updateControlsMenu()
     setText(6, (string) "Draw: " + (keyselect == 6 ? "_" : Input::keyToChar(drawkey)));
     setText(7, (string) "Throw: " + (keyselect == 7 ? "_" : Input::keyToChar(throwkey)));
     setText(8, (string) "Attack: " + (keyselect == 8 ? "_" : Input::keyToChar(attackkey)));
+#ifndef DREAMCAST
     if (devtools) {
         setText(9, (string) "Console: " + (keyselect == 9 ? "_" : Input::keyToChar(consolekey)));
     }
+#endif
 }
 
 /*
@@ -411,10 +413,12 @@ void Menu::Load()
             addButton(6, "", 10 + 40, 160);
             addButton(7, "", 10 + 30, 120);
             addButton(8, "", 10 + 20, 80);
+#ifndef DREAMCAST
             if (devtools) {
                 addButton(9, "", 10 + 10, 40);
             }
             addButton(devtools ? 10 : 9, "Back", 10, 10);
+#endif
             updateControlsMenu();
             break;
         case 5: {
@@ -741,16 +745,20 @@ void Menu::Tick()
             case 4:
                 if (!waiting) {
                     fireSound();
+#ifndef DREAMCAST
                     if (selected < (devtools ? 10 : 9) && keyselect == -1) {
                         keyselect = selected;
                     }
+#endif
                     if (keyselect != -1) {
                         setKeySelected();
                     }
+#ifndef DREAMCAST
                     if (selected == (devtools ? 10 : 9)) {
                         flash();
                         mainmenu = 3;
                     }
+#endif
                 }
                 updateControlsMenu();
                 break;
