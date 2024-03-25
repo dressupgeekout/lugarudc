@@ -30,7 +30,9 @@ void Text::LoadFontTexture(const std::string& fileName)
 
     FontTexture.load(fileName, false);
     if (base) {
+#ifndef DREAMCAST
         glDeleteLists(base, 512);
+#endif
         base = 0;
     }
 }
@@ -44,11 +46,15 @@ void Text::BuildFont() // Build Our Font Display List
     LOGFUNC;
 
     if (base) {
+#ifndef DREAMCAST
         glDeleteLists(base, 512);
+#endif
         base = 0;
     }
 
+#ifndef DREAMCAST
     base = glGenLists(512); // Creating 256 Display Lists
+#endif
     FontTexture.bind();
     for (loop = 0; loop < 512; loop++) { // Loop Through All 256 Lists
         if (loop < 256) {
@@ -58,7 +64,9 @@ void Text::BuildFont() // Build Our Font Display List
             cx = float((loop - 256) % 16) / 16.0f; // X Position Of Current Character
             cy = float((loop - 256) / 16) / 16.0f; // Y Position Of Current Character
         }
+#ifndef DREAMCAST
         glNewList(base + loop, GL_COMPILE);                  // Start Building A List
+#endif
         glBegin(GL_QUADS);                                   // Use A Quad For Each Character
         glTexCoord2f(cx, 1 - cy - 0.0625f + .001);           // Texture Coord (Bottom Left)
         glVertex2i(0, 0);                                    // Vertex Coord (Bottom Left)
@@ -74,7 +82,9 @@ void Text::BuildFont() // Build Our Font Display List
         } else {
             glTranslated(8, 0, 0); // Move To The Right Of The Character
         }
+#ifndef DREAMCAST
         glEndList(); // Done Building The Display List
+#endif
     }                // Loop Until All 256 Are Built
 }
 
@@ -98,8 +108,10 @@ void Text::_glPrint(float x, float y, const std::string& string, int set, float 
     glLoadIdentity();
     glTranslated(x, y, 0);
     glScalef(size, size, 1);
+#ifndef DREAMCAST
     glListBase(base - 32 + (128 * set) + offset);      // Choose The Font Set (0 or 1)
     glCallLists(end - start, GL_BYTE, &string[start]); // Write The Text To The Screen
+#endif
     glMatrixMode(GL_PROJECTION);
     glPopMatrix();
     glMatrixMode(GL_MODELVIEW);
@@ -145,7 +157,9 @@ Text::Text()
 Text::~Text()
 {
     if (base) {
+#ifndef DREAMCAST
         glDeleteLists(base, 512);
+#endif
         base = 0;
     }
 }

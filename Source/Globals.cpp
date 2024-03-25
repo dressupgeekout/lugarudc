@@ -59,7 +59,9 @@ float gravity = 0;
 Light light;
 Terrain terrain;
 
+#ifndef DREAMCAST
 SDL_Window* sdlwindow;
+#endif
 
 int kTextureSize = 0;
 int detail = 0;
