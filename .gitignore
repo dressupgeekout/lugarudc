@@ -17,6 +17,5 @@ CMakeCache.txt
 cscope.*
 Data/users
 Data/config.txt
-Source/Version.hpp
 *.cdi
 *.elf

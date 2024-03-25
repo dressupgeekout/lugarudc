@@ -19,17 +19,17 @@ along with Lugaru.  If not, see <http://www.gnu.org/licenses/>.
 */
 
 /** Version number is either MAJOR.MINOR, or MAJOR.MINOR.PATCH if PATCH != 0 */
-const unsigned int VERSION_MAJOR = @LUGARU_VERSION_MAJOR@;
-const unsigned int VERSION_MINOR = @LUGARU_VERSION_MINOR@;
-const unsigned int VERSION_PATCH = @LUGARU_VERSION_PATCH@;
-const std::string VERSION_NUMBER = "@LUGARU_VERSION_NUMBER@";
+const unsigned int VERSION_MAJOR = 1;
+const unsigned int VERSION_MINOR = 3;
+const unsigned int VERSION_PATCH = 0;
+const std::string VERSION_NUMBER = "1.3";
 
 /** Set to "" for stable (tagged) builds, "-dev" for dev builds */
-const std::string VERSION_SUFFIX = "@LUGARU_VERSION_SUFFIX@";
+const std::string VERSION_SUFFIX = "-dev";
 /** Set to 7-char git commit hash if available, otherwise "" */
-const std::string VERSION_HASH = "@LUGARU_VERSION_HASH@";
+const std::string VERSION_HASH = "";
 /** Optional release string, e.g. for distro packages release number */
-const std::string VERSION_RELEASE = "@LUGARU_VERSION_RELEASE@";
+const std::string VERSION_RELEASE = "";
 
 /** Final string built from the above constants, following the scheme
  *  defined in CMakeLists.txt, typically:
@@ -40,7 +40,7 @@ const std::string VERSION_RELEASE = "@LUGARU_VERSION_RELEASE@";
  *      "1.2-dev (git ab12c34) [OSS Lugaru official]"
  *      "1.3.1 [Mageia 1.3.1-2.mga6]"
  */
-const std::string VERSION_STRING = "@LUGARU_VERSION_STRING@";
+const std::string VERSION_STRING = "1.3-dev (git)";
 
 /** Build type (Release, Debug, RelWithDebInfo) to output to the terminal */
-const std::string VERSION_BUILD_TYPE = "@CMAKE_BUILD_TYPE@";
+const std::string VERSION_BUILD_TYPE = "RelWithDebInfo";
